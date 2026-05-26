@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eid Mubarak?</title>
+
+  <style>
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+
+      /* GIF BACKGROUND */
+      background: url("background.gif") center center / cover no-repeat;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* GLASS CARD */
+    .card {
+
+      background: rgba(255,255,255,0.15);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border: 1px solid rgba(255,255,255,0.2);
+
+      padding: 40px;
+      border-radius: 25px;
+
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+
+      width: 400px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    /* RAM */
+    #ram {
+      font-size: 120px;
+      margin-bottom: 20px;
+      transition: 0.25s ease;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: white;
+      margin-bottom: 30px;
+
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    button {
+      border: none;
+      padding: 14px 30px;
+      border-radius: 999px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #yes {
+      background: #6be000;
+      color: white;
+    }
+
+    #no {
+      position: fixed;
+      background: #ff4d6d;
+      color: white;
+      z-index: 5;
+    }
+
+    #message {
+      margin-top: 25px;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      min-height: 30px;
+
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    /* RAM CONFETTI */
+    .sheep-confetti {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      user-select: none;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div id="ram">🐏</div>
+
+    <h1>Can I Eid Mubarak my way back into your life?</h1>
+
+    <button id="yes">Yes</button>
+
+    <div id="message"></div>
+
+  </div>
+
+  <button id="no">No</button>
+
+  <script>
+
+    const no = document.getElementById("no");
+    const yes = document.getElementById("yes");
+    const ram = document.getElementById("ram");
+    const message = document.getElementById("message");
+
+    // Initial NO button position
+    function placeNoButton() {
+
+      no.style.left = "58%";
+      no.style.top = "58%";
+
+    }
+
+    placeNoButton();
+
+    // Move NO button
+    function moveNoButton() {
+
+      const maxX =
+        window.innerWidth - no.offsetWidth - 20;
+
+      const maxY =
+        window.innerHeight - no.offsetHeight - 20;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      no.style.left = randomX + "px";
+      no.style.top = randomY + "px";
+
+      // Ram reaction
+      ram.style.transform =
+        "scale(1.15) rotate(-8deg)";
+
+      setTimeout(() => {
+
+        ram.style.transform =
+          "scale(1) rotate(0deg)";
+
+      }, 250);
+
+      // Messages
+      const messages = [
+
+        "🐏: absolutely not.",
+        "🐏: try again.",
+        "🐏: denial rejected.",
+        "🐏: astaghfirullah.",
+        "🐏: be serious.",
+        "🐏: nice try.",
+        "🐏: you're clicking yes today."
+
+      ];
+
+      message.textContent =
+        messages[Math.floor(Math.random() * messages.length)];
+
+    }
+
+    no.addEventListener("mouseover", moveNoButton);
+    no.addEventListener("click", moveNoButton);
+
+    // EXPLOSIVE RAM CONFETTI
+    function explodeRamConfetti() {
+
+      const totalRams = 120;
+
+      for (let i = 0; i < totalRams; i++) {
+
+        const sheep = document.createElement("div");
+
+        sheep.className = "sheep-confetti";
+        sheep.textContent = "🐏";
+
+        const startX = window.innerWidth / 2;
+        const startY = window.innerHeight / 2;
+
+        sheep.style.left = startX + "px";
+        sheep.style.top = startY + "px";
+
+        sheep.style.fontSize =
+          (Math.random() * 28 + 18) + "px";
+
+        document.body.appendChild(sheep);
+
+        const angle =
+          Math.random() * Math.PI * 2;
+
+        const distance =
+          Math.random() * 650 + 150;
+
+        const moveX =
+          Math.cos(angle) * distance;
+
+        const moveY =
+          Math.sin(angle) * distance;
+
+        const spin =
+          Math.random() * 1440 - 720;
+
+        const duration =
+          Math.random() * 1800 + 1400;
+
+        sheep.animate([
+          {
+            transform:
+              "translate(0, 0) scale(0.6) rotate(0deg)",
+            opacity: 1
+          },
+          {
+            transform:
+              `translate(${moveX}px, ${moveY}px)
+               scale(1.4)
+               rotate(${spin}deg)`,
+
+            opacity: 0
+          }
+        ], {
+
+          duration: duration,
+
+          easing:
+            "cubic-bezier(.17,.67,.28,1.31)"
+
+        });
+
+        setTimeout(() => {
+
+          sheep.remove();
+
+        }, duration);
+
+      }
+
+    }
+
+    // YES BUTTON
+    yes.addEventListener("click", () => {
+
+      message.textContent =
+        "Eid Mubarak!";
+
+      no.style.display = "none";
+
+      ram.style.transform =
+        "scale(1.15) rotate(5deg)";
+
+      // Triple explosion
+      explodeRamConfetti();
+
+      setTimeout(explodeRamConfetti, 350);
+
+      setTimeout(explodeRamConfetti, 700);
+
+    });
+
+  </script>
+
+</body>
+</html>
