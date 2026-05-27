@@ -215,6 +215,7 @@
     const ram = document.getElementById("ram");
     const message = document.getElementById("message");
 
+    let yesClicks = 0;
     let noAttempts = 0;
 
     // INITIAL NO BUTTON POSITION
@@ -393,25 +394,38 @@
 
     // YES BUTTON
 
-    yes.addEventListener("click", () => {
+   yes.addEventListener("click", () => {
 
-      message.textContent =
-        "Eid Mubarak😭";
+  yesClicks++;
 
-      no.style.display = "none";
+  message.textContent =
+    "Eid Mubarak😭";
 
-      ram.style.transform =
-        "scale(1.15) rotate(5deg)";
+  no.style.display = "none";
 
-      // TRIPLE RAM CONFETTI
+  ram.style.transform =
+    "scale(1.15) rotate(5deg)";
 
-      explodeRamConfetti();
+  // STOP AFTER 5 CLICKS
 
-      setTimeout(explodeRamConfetti, 350);
+  if (yesClicks > 5) {
 
-      setTimeout(explodeRamConfetti, 700);
+    message.textContent =
+      "sorry, out of ram confetti.";
 
-    });
+    return;
+
+  }
+
+  // TRIPLE RAM CONFETTI
+
+  explodeRamConfetti();
+
+  setTimeout(explodeRamConfetti, 350);
+
+  setTimeout(explodeRamConfetti, 700);
+
+});
 
   </script>
 
