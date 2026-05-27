@@ -6,14 +6,12 @@
   <title>Eid Mubarak?</title>
 
   <style>
-
     body {
       margin: 0;
       height: 100vh;
       overflow: hidden;
       font-family: Arial, sans-serif;
 
-      /* BACKGROUND GIF */
       background-image: url("./background.gif");
       background-size: cover;
       background-position: center;
@@ -25,63 +23,41 @@
       text-align: center;
     }
 
-    /* LOADING SCREEN */
-
     #loader {
-
       position: fixed;
       inset: 0;
-
       background: black;
-
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
       z-index: 99999;
-
     }
 
     #loader img {
-
       width: 260px;
       border-radius: 20px;
-
     }
 
     #loader p {
-
       color: white;
       font-size: 32px;
       margin-top: 20px;
       font-weight: bold;
-
     }
 
-    /* GLASS CARD */
-
     .card {
-
       background: rgba(255,255,255,0.06);
-
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-
       border: 1px solid rgba(255,255,255,0.15);
-
       padding: 40px;
       border-radius: 25px;
-
       box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-
       width: 400px;
-
       position: relative;
       z-index: 2;
     }
-
-    /* RAM */
 
     #ram {
       font-size: 120px;
@@ -93,7 +69,6 @@
       font-size: 26px;
       color: white;
       margin-bottom: 30px;
-
       text-shadow: 0 3px 15px rgba(0,0,0,0.9);
     }
 
@@ -128,11 +103,8 @@
       font-weight: bold;
       color: white;
       min-height: 30px;
-
       text-shadow: 0 3px 15px rgba(0,0,0,0.9);
     }
-
-    /* RAM CONFETTI */
 
     .sheep-confetti {
       position: fixed;
@@ -141,25 +113,32 @@
       user-select: none;
     }
 
+    #ending {
+      position: fixed;
+      inset: 0;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+    }
+
+    #ending img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- LOADING SCREEN -->
-
   <div id="loader">
-
     <img src="Loading_screen.gif" alt="Loading">
-
     <p>Loading...</p>
-
   </div>
 
-  <!-- MAIN CARD -->
-
   <div class="card">
-
     <div id="ram">🐏</div>
 
     <h1>Can I Eid Mubarak my way back into your life?</h1>
@@ -167,64 +146,56 @@
     <button id="yes">Yes</button>
 
     <div id="message"></div>
-
   </div>
-
-  <!-- NO BUTTON -->
 
   <button id="no">No</button>
 
   <script>
-
     const no = document.getElementById("no");
     const yes = document.getElementById("yes");
     const ram = document.getElementById("ram");
     const message = document.getElementById("message");
 
-    // LOADING SCREEN
+    let noAttempts = 0;
 
     window.addEventListener("load", () => {
-
       setTimeout(() => {
+        const loader = document.getElementById("loader");
 
-        const loader =
-          document.getElementById("loader");
-
-        loader.style.transition =
-          "opacity 0.6s ease";
-
+        loader.style.transition = "opacity 0.6s ease";
         loader.style.opacity = "0";
 
         setTimeout(() => {
-
           loader.style.display = "none";
-
         }, 600);
-
       }, 5000);
-
     });
 
-    // INITIAL NO BUTTON POSITION
-
     function placeNoButton() {
-
       no.style.left = "58%";
       no.style.top = "58%";
-
     }
 
     placeNoButton();
 
-    // MOVE NO BUTTON
+    function showEnding() {
+      document.body.innerHTML = `
+        <div id="ending">
+          <img src="End.GIF" alt="Ending GIF">
+        </div>
+      `;
+    }
 
     function moveNoButton() {
+      noAttempts++;
 
-      const maxX =
-        window.innerWidth - no.offsetWidth - 20;
+      if (noAttempts >= 6) {
+        showEnding();
+        return;
+      }
 
-      const maxY =
-        window.innerHeight - no.offsetHeight - 20;
+      const maxX = window.innerWidth - no.offsetWidth - 20;
+      const maxY = window.innerHeight - no.offsetHeight - 20;
 
       const randomX = Math.random() * maxX;
       const randomY = Math.random() * maxY;
@@ -232,36 +203,24 @@
       no.style.left = randomX + "px";
       no.style.top = randomY + "px";
 
-      // RAM REACTION
-
-      ram.style.transform =
-        "scale(1.15) rotate(-8deg)";
+      ram.style.transform = "scale(1.15) rotate(-8deg)";
 
       setTimeout(() => {
-
-        ram.style.transform =
-          "scale(1) rotate(0deg)";
-
+        ram.style.transform = "scale(1) rotate(0deg)";
       }, 250);
 
-      // RANDOM MESSAGES
-
       const messages = [
-
-        "🐏: absolutely not.",
         "🐏: try again.",
-        "🐏: denial rejected.",
+        "🐏: Nuh Uh.",
+        "🐏: rejected.",
         "🐏: astaghfirullah.",
         "🐏: be serious.",
         "🐏: nice try.",
         "🐏: you're clicking yes today."
-
       ];
 
       message.textContent =
         messages[Math.floor(Math.random() * messages.length)];
-
-      // SCREEN SHAKE
 
       document.body.animate([
         { transform: "translateX(0)" },
@@ -271,20 +230,15 @@
       ], {
         duration: 150
       });
-
     }
 
     no.addEventListener("mouseover", moveNoButton);
     no.addEventListener("click", moveNoButton);
 
-    // EXPLOSIVE RAM CONFETTI
-
     function explodeRamConfetti() {
-
       const totalRams = 120;
 
       for (let i = 0; i < totalRams; i++) {
-
         const sheep = document.createElement("div");
 
         sheep.className = "sheep-confetti";
@@ -295,85 +249,51 @@
 
         sheep.style.left = startX + "px";
         sheep.style.top = startY + "px";
-
-        sheep.style.fontSize =
-          (Math.random() * 28 + 18) + "px";
+        sheep.style.fontSize = (Math.random() * 28 + 18) + "px";
 
         document.body.appendChild(sheep);
 
-        const angle =
-          Math.random() * Math.PI * 2;
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 650 + 150;
 
-        const distance =
-          Math.random() * 650 + 150;
+        const moveX = Math.cos(angle) * distance;
+        const moveY = Math.sin(angle) * distance;
 
-        const moveX =
-          Math.cos(angle) * distance;
-
-        const moveY =
-          Math.sin(angle) * distance;
-
-        const spin =
-          Math.random() * 1440 - 720;
-
-        const duration =
-          Math.random() * 1800 + 1400;
+        const spin = Math.random() * 1440 - 720;
+        const duration = Math.random() * 1800 + 1400;
 
         sheep.animate([
           {
-            transform:
-              "translate(0, 0) scale(0.6) rotate(0deg)",
+            transform: "translate(0, 0) scale(0.6) rotate(0deg)",
             opacity: 1
           },
           {
             transform:
-              `translate(${moveX}px, ${moveY}px)
-               scale(1.4)
-               rotate(${spin}deg)`,
-
+              `translate(${moveX}px, ${moveY}px) scale(1.4) rotate(${spin}deg)`,
             opacity: 0
           }
         ], {
-
           duration: duration,
-
-          easing:
-            "cubic-bezier(.17,.67,.28,1.31)"
-
+          easing: "cubic-bezier(.17,.67,.28,1.31)"
         });
 
         setTimeout(() => {
-
           sheep.remove();
-
         }, duration);
-
       }
-
     }
 
-    // YES BUTTON
-
     yes.addEventListener("click", () => {
-
-      message.textContent =
-        "Eid Mubarak 😭💛";
+      message.textContent = "Eid Mubarak!";
 
       no.style.display = "none";
 
-      ram.style.transform =
-        "scale(1.15) rotate(5deg)";
-
-      // TRIPLE CONFETTI EXPLOSION
+      ram.style.transform = "scale(1.15) rotate(5deg)";
 
       explodeRamConfetti();
-
       setTimeout(explodeRamConfetti, 350);
-
       setTimeout(explodeRamConfetti, 700);
-
     });
-
   </script>
 
 </body>
