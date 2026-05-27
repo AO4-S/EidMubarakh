@@ -294,6 +294,14 @@
       setTimeout(explodeRamConfetti, 350);
       setTimeout(explodeRamConfetti, 700);
     });
+    // FORCE REMOVE LOADER AFTER 5 SECONDS
+setTimeout(function () {
+  var loader = document.getElementById("loader");
+
+  if (loader) {
+    loader.remove();
+  }
+}, 5000);
   </script>
 
 </body>
