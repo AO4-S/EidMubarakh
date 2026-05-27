@@ -45,7 +45,7 @@
 
     #loader img {
 
-      width: 220px;
+      width: 260px;
       border-radius: 20px;
 
     }
@@ -53,7 +53,7 @@
     #loader p {
 
       color: white;
-      font-size: 28px;
+      font-size: 32px;
       margin-top: 20px;
       font-weight: bold;
 
@@ -183,11 +183,27 @@
 
     // LOADING SCREEN
 
-    setTimeout(() => {
+    window.addEventListener("load", () => {
 
-      document.getElementById("loader").style.display = "none";
+      setTimeout(() => {
 
-    }, 5000);
+        const loader =
+          document.getElementById("loader");
+
+        loader.style.transition =
+          "opacity 0.6s ease";
+
+        loader.style.opacity = "0";
+
+        setTimeout(() => {
+
+          loader.style.display = "none";
+
+        }, 600);
+
+      }, 5000);
+
+    });
 
     // INITIAL NO BUTTON POSITION
 
