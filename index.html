@@ -13,8 +13,11 @@
       overflow: hidden;
       font-family: Arial, sans-serif;
 
-      /* GIF  */
-      background: url("background.gif") center center / cover no-repeat;
+      /* BACKGROUND GIF */
+      background-image: url("./background.gif");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
 
       display: flex;
       justify-content: center;
@@ -22,20 +25,55 @@
       text-align: center;
     }
 
+    /* LOADING SCREEN */
+
+    #loader {
+
+      position: fixed;
+      inset: 0;
+
+      background: black;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      z-index: 99999;
+
+    }
+
+    #loader img {
+
+      width: 220px;
+      border-radius: 20px;
+
+    }
+
+    #loader p {
+
+      color: white;
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+
+    }
+
     /* GLASS CARD */
+
     .card {
 
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
 
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
 
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.15);
 
       padding: 40px;
       border-radius: 25px;
 
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
 
       width: 400px;
 
@@ -44,6 +82,7 @@
     }
 
     /* RAM */
+
     #ram {
       font-size: 120px;
       margin-bottom: 20px;
@@ -55,7 +94,7 @@
       color: white;
       margin-bottom: 30px;
 
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      text-shadow: 0 3px 15px rgba(0,0,0,0.9);
     }
 
     button {
@@ -72,13 +111,13 @@
     }
 
     #yes {
-      : #6be000;
+      background: #6be000;
       color: white;
     }
 
     #no {
       position: fixed;
-      : #ff4d6d;
+      background: #ff4d6d;
       color: white;
       z-index: 5;
     }
@@ -90,10 +129,11 @@
       color: white;
       min-height: 30px;
 
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      text-shadow: 0 3px 15px rgba(0,0,0,0.9);
     }
 
     /* RAM CONFETTI */
+
     .sheep-confetti {
       position: fixed;
       z-index: 9999;
@@ -105,6 +145,18 @@
 </head>
 
 <body>
+
+  <!-- LOADING SCREEN -->
+
+  <div id="loader">
+
+    <img src="Loading_screen.gif" alt="Loading">
+
+    <p>Loading...</p>
+
+  </div>
+
+  <!-- MAIN CARD -->
 
   <div class="card">
 
@@ -118,6 +170,8 @@
 
   </div>
 
+  <!-- NO BUTTON -->
+
   <button id="no">No</button>
 
   <script>
@@ -127,7 +181,16 @@
     const ram = document.getElementById("ram");
     const message = document.getElementById("message");
 
-    // Initial NO button position
+    // LOADING SCREEN
+
+    setTimeout(() => {
+
+      document.getElementById("loader").style.display = "none";
+
+    }, 5000);
+
+    // INITIAL NO BUTTON POSITION
+
     function placeNoButton() {
 
       no.style.left = "58%";
@@ -137,7 +200,8 @@
 
     placeNoButton();
 
-    // Move NO button
+    // MOVE NO BUTTON
+
     function moveNoButton() {
 
       const maxX =
@@ -152,7 +216,8 @@
       no.style.left = randomX + "px";
       no.style.top = randomY + "px";
 
-      // Ram reaction
+      // RAM REACTION
+
       ram.style.transform =
         "scale(1.15) rotate(-8deg)";
 
@@ -163,7 +228,8 @@
 
       }, 250);
 
-      // Messages
+      // RANDOM MESSAGES
+
       const messages = [
 
         "🐏: absolutely not.",
@@ -179,12 +245,24 @@
       message.textContent =
         messages[Math.floor(Math.random() * messages.length)];
 
+      // SCREEN SHAKE
+
+      document.body.animate([
+        { transform: "translateX(0)" },
+        { transform: "translateX(-5px)" },
+        { transform: "translateX(5px)" },
+        { transform: "translateX(0)" }
+      ], {
+        duration: 150
+      });
+
     }
 
     no.addEventListener("mouseover", moveNoButton);
     no.addEventListener("click", moveNoButton);
 
     // EXPLOSIVE RAM CONFETTI
+
     function explodeRamConfetti() {
 
       const totalRams = 120;
@@ -259,17 +337,19 @@
     }
 
     // YES BUTTON
+
     yes.addEventListener("click", () => {
 
       message.textContent =
-        "Eid Mubarak!";
+        "Eid Mubarak 😭💛";
 
       no.style.display = "none";
 
       ram.style.transform =
         "scale(1.15) rotate(5deg)";
 
-      // Triple explosion
+      // TRIPLE CONFETTI EXPLOSION
+
       explodeRamConfetti();
 
       setTimeout(explodeRamConfetti, 350);
